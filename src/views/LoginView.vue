@@ -10,26 +10,28 @@ const signInData = ref({
   email: 'terryd@kali.org',
   password: 'terryd123'
 })
+const errMsg = ref('')
 
-const login = () => {
-  axios
+console.log(state)
+const login = async () => {
+  await axios
     .post(apiUrl + '/users/sign_in', signInData.value)
     .then((resp) => {
-      loginUser.value.nickname = resp.data.nickname
-      loginUser.value.exp = resp.data.exp
-      loginUser.value.status = resp.data.status
-      loginUser.value.token = resp.data.token
-      signInErrMsg.value = ''
+      state.nickname = resp.data.nickname
+      state.exp = resp.data.exp
+      state.status = resp.data.status
+      state.token = resp.data.token
 
-      document.cookie = `hexschoolTodo=${loginUser.value.token}`
-      getAllTodos()
+      document.cookie = `hexschoolTodo=${state.token}`
+      errMsg.value = ''
     })
     .catch((error) => {
-      signInErrMsg.value = error.message
+      console.log(error.response.data)
+      errMsg.value = error.response.data.message
     })
 
-  email.value = ''
-  pwd.value = ''
+  signInData.value.email = ''
+  signInData.value.password = ''
 }
 </script>
 
@@ -62,7 +64,7 @@ const login = () => {
             required
             v-model="signInData.email"
           />
-          <span v-if="email == ''">此欄位不可留空</span>
+          <span v-if="signInData.email == ''">此欄位不可留空</span>
           <label class="formControls_label" for="pwd">密碼</label>
           <input
             class="formControls_input"
@@ -73,12 +75,8 @@ const login = () => {
             required
             v-model="signInData.password"
           />
-          <input
-            class="formControls_btnSubmit"
-            type="button"
-            onclick="javascript:location.href='#todoListPage'"
-            value="登入"
-          />
+          <input class="formControls_btnSubmit" type="button" value="登入" @click="login" />
+          <span v-if="errMsg != ''">錯誤: {{ errMsg }}</span>
           <a class="formControls_btnLink" href="#signup">註冊帳號</a>
         </form>
       </div>
