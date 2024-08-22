@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+import { useStateStore } from '@/store/stateStore';
+
+const stateStore = useStateStore()
+
+</script>
 
 <template>
   <!-- ToDo List -->
@@ -7,7 +12,7 @@
       <h1><a href="#">ONLINE TODO LIST</a></h1>
       <ul>
         <li class="todo_sm">
-          <a href="#"><span>王小明的代辦</span></a>
+          <a href="#/todo"><span>{{stateStore.nickname}} 的代辦</span></a>
         </li>
         <li><a href="#loginPage">登出</a></li>
       </ul>

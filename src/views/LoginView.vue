@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useStateStore } from '@/store/stateStore'
+import { useRouter } from 'vue-router'
 
 const state = useStateStore()
 const apiUrl = 'https://todolist-api.hexschool.io'
@@ -11,8 +12,8 @@ const signInData = ref({
   password: 'terryd123'
 })
 const errMsg = ref('')
+const router = useRouter()
 
-console.log(state)
 const login = async () => {
   await axios
     .post(apiUrl + '/users/sign_in', signInData.value)
@@ -23,15 +24,18 @@ const login = async () => {
       state.token = resp.data.token
 
       document.cookie = `hexschoolTodo=${state.token}`
+      
+      setTimeout(() => {
+        router.push('/todo')
+      }, 500)
       errMsg.value = ''
     })
     .catch((error) => {
       console.log(error.response.data)
       errMsg.value = error.response.data.message
+      signInData.value.email = ''
+      signInData.value.password = ''
     })
-
-  signInData.value.email = ''
-  signInData.value.password = ''
 }
 </script>
 
