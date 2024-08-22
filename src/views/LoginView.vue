@@ -6,29 +6,31 @@ import { useStateStore } from '@/store/stateStore'
 const state = useStateStore()
 const apiUrl = 'https://todolist-api.hexschool.io'
 
-const email = ref('terryd@kali.org')
-const pwd = ref('terryd123')
+const signInData = ref({
+  email: 'terryd@kali.org',
+  password: 'terryd123'
+})
 
-// const login = () => {
-//   axios
-//     .post(apiUrl + '/users/sign_in', signInData.value)
-//     .then((resp) => {
-//       loginUser.value.nickname = resp.data.nickname
-//       loginUser.value.exp = resp.data.exp
-//       loginUser.value.status = resp.data.status
-//       loginUser.value.token = resp.data.token
-//       signInErrMsg.value = ''
+const login = () => {
+  axios
+    .post(apiUrl + '/users/sign_in', signInData.value)
+    .then((resp) => {
+      loginUser.value.nickname = resp.data.nickname
+      loginUser.value.exp = resp.data.exp
+      loginUser.value.status = resp.data.status
+      loginUser.value.token = resp.data.token
+      signInErrMsg.value = ''
 
-//       document.cookie = `hexschoolTodo=${loginUser.value.token}`
-//       getAllTodos()
-//     })
-//     .catch((error) => {
-//       signInErrMsg.value = error.message
-//     })
+      document.cookie = `hexschoolTodo=${loginUser.value.token}`
+      getAllTodos()
+    })
+    .catch((error) => {
+      signInErrMsg.value = error.message
+    })
 
-//   email.value = ''
-//   pwd.value = ''
-// }
+  email.value = ''
+  pwd.value = ''
+}
 </script>
 
 <template>
@@ -58,7 +60,7 @@ const pwd = ref('terryd123')
             name="email"
             placeholder="請輸入 email"
             required
-            v-model="email"
+            v-model="signInData.email"
           />
           <span v-if="email == ''">此欄位不可留空</span>
           <label class="formControls_label" for="pwd">密碼</label>
@@ -69,7 +71,7 @@ const pwd = ref('terryd123')
             id="pwd"
             placeholder="請輸入密碼"
             required
-            v-model="pwd"
+            v-model="signInData.password"
           />
           <input
             class="formControls_btnSubmit"
