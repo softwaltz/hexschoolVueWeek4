@@ -20,7 +20,7 @@ const signUp = () => {
       errMsg.value = '註冊成功'
       setTimeout(() => {
         router.push('/')
-      }, 500)
+      }, 300)
     })
     .catch((error) => {
       errMsg.value = '錯誤: ' + error.response.data.message

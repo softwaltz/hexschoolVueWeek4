@@ -24,10 +24,10 @@ const login = async () => {
       state.token = resp.data.token
 
       document.cookie = `hexschoolTodo=${state.token}`
-      
+
       setTimeout(() => {
         router.push('/todo')
-      }, 500)
+      }, 300)
       errMsg.value = ''
     })
     .catch((error) => {
