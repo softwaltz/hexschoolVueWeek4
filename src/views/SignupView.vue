@@ -13,8 +13,8 @@ const signUpData = ref({
 const passwordCheck = ref('terryd123')
 const errMsg = ref('')
 
-const signUp = () => {
-  axios
+const signUp = async () => {
+  await axios
     .post(apiUrl + '/users/sign_up', signUpData.value)
     .then(() => {
       errMsg.value = '註冊成功'
@@ -23,7 +23,11 @@ const signUp = () => {
       }, 300)
     })
     .catch((error) => {
-      errMsg.value = '錯誤: ' + error.response.data.message
+      if (error.response === undefined) {
+        errMsg.value = '錯誤: ' + error.message
+      } else {
+        errMsg.value = '錯誤: ' + error.response.data.message
+      }
     })
 }
 </script>

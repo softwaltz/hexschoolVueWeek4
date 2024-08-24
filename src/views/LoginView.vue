@@ -31,8 +31,11 @@ const login = async () => {
       errMsg.value = ''
     })
     .catch((error) => {
-      console.log(error.response.data)
-      errMsg.value = error.response.data.message
+      if (error.response === undefined) {
+        errMsg.value = error.message
+      } else {
+        errMsg.value = error.response.data.message
+      }
       signInData.value.email = ''
       signInData.value.password = ''
     })
