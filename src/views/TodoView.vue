@@ -210,7 +210,7 @@ onMounted(async () => {
         <div class="inputBox">
           <input type="text" placeholder="請輸入待辦事項" v-model="newTodo.content" />
           <a @click="addNewTodo">
-            <i class="fa fa-plus"></i>
+            <i class="fa">+</i>
           </a>
         </div>
         <div class="todoList_list" v-if="todos.length > 0">
