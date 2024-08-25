@@ -174,6 +174,9 @@ const countIncomplete = computed(() => {
 })
 
 onMounted(async () => {
+  if (stateStore.token == '') {
+    router.push('/')
+  }
   await getAllTodos()
 
   if (todos.value.length < 5 ) {
